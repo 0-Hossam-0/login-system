@@ -4,17 +4,19 @@ import BodyChat from '../Components/BodyChat';
 import Settings from '../Components/Settings';
 import '../css/app.css';
 import Dialog from '../Components/Dialog';
-import type { HomeDispatch} from '../Redux/StoreApp';
-import { useDispatch} from 'react-redux';
+import type { HomeDispatch } from '../Redux/StoreApp';
+import { useDispatch } from 'react-redux';
 import { fetchUserData } from '../Redux/UserDataSlice';
 
-const Home: React.FC = ({}) => {
+const Home: React.FC = () => {
   const dispatch = useDispatch<HomeDispatch>();
+  
   useEffect(() => {
     dispatch(fetchUserData());
-  }, []);
+  }, [dispatch]);
+  
   return (
-    <div>
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
       <Dialog />
       <Settings />
       <Chats />

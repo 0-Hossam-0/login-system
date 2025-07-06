@@ -7,8 +7,7 @@ import { useHomeContext } from '../HomeContext';
 
 const Chat: React.FC<ChatPropsComponent> = ({ chat }) => {
   const dispatch = useDispatch();
-  const { setCurrentChat, currentChat } = useHomeContext();
-  const { setShowAddLayout } = useHomeContext();
+  const { setCurrentChat, currentChat, setShowAddLayout } = useHomeContext();
   
   const isActive = currentChat?.id === chat.id;
   
@@ -17,7 +16,7 @@ const Chat: React.FC<ChatPropsComponent> = ({ chat }) => {
       className={`flex hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 cursor-pointer rounded-xl p-4 mb-2 select-none group ${
         isActive ? 'bg-indigo-50 dark:bg-indigo-900/30 border-l-4 border-indigo-500' : ''
       }`}
-      id={`${chat.id}`} 
+      id={`chat-${chat.id}`} 
       onClick={() => selectCurrentChat({ dispatch, chat, setCurrentChat, currentChat, setShowAddLayout })}
     >
       <div className="flex items-center gap-4 flex-1">

@@ -110,7 +110,7 @@ export interface MessageProps {
 }
 
 export interface SendsMessageProps{
-  event: React.MouseEvent<HTMLDivElement, MouseEvent>;
+  event: React.MouseEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement>;
   currentChat: CurrentChatProps | null;
   HomeInputs: HomeInputsProps;
 }
@@ -147,8 +147,8 @@ export interface HomeContextProps {
   setAddLoadingState: React.Dispatch<React.SetStateAction<boolean>>;
   currentChat: CurrentChatProps | null;
   setCurrentChat: React.Dispatch<React.SetStateAction<CurrentChatProps | null>>;
-  searchChats: UserChatsProps[];
-  setSearchChat: React.Dispatch<React.SetStateAction<UserChatsProps[] | null>>;
+  searchChats: UserChatsProps[] | null;
+  setSearchChats: React.Dispatch<React.SetStateAction<UserChatsProps[] | null>>;
 }
 
 export interface LoginContextProps {
@@ -227,7 +227,6 @@ export interface ResetRegisterPanelProps {
   setInputsLevel: React.Dispatch<React.SetStateAction<InputsLevelProps>>;
 }
 
-
 export interface AddChatUserProps {
   HomeMessages: HomeMessagesProps;
   HomeInputs: HomeInputsProps;
@@ -259,6 +258,7 @@ export interface SelectCurrentChatProps {
   setCurrentChat: React.Dispatch<React.SetStateAction<CurrentChatProps | null>>;
   currentChat: CurrentChatProps | null;
   chat: UserChatsProps;
+  setShowAddLayout: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface MessageComponent {

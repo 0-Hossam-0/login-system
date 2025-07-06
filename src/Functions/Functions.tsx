@@ -26,6 +26,7 @@ export const resetRegisterPanel = ({ RegisterInputs, setInputsLevel }: ResetRegi
     });
   }, 0);
 };
+
 export const sendCode = async ({ RegisterInputs, RegisterMessages, setLoadingState, setIsResendButtonOn }: SendCodeProps) => {
   RegisterMessages.verificationMessage.current!.innerHTML = '';
   RegisterMessages.emailSent.current!.innerHTML = '';
@@ -53,68 +54,102 @@ export const sendCode = async ({ RegisterInputs, RegisterMessages, setLoadingSta
   }
 };
 
-export const sendMessage= async ({ event, HomeInputs, currentChat } : SendsMessageProps) => {
+export const sendMessage = async ({ event, HomeInputs, currentChat }: SendsMessageProps) => {
   event.preventDefault();
+  
+  if (!HomeInputs.chatInput.current?.value.trim() || !currentChat) {
+    return;
+  }
 
-  await fetch('/api/message', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      message: HomeInputs.chatInput.current?.value,
-      chat_name: currentChat?.name
-    }),
-  });
+  const messageText = HomeInputs.chatInput.current.value.trim();
+  
+  try {
+    await fetch('/api/message', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message: messageText,
+        chat_name: currentChat.name
+      }),
+    });
+    
+    // Clear the input after successful send
+    HomeInputs.chatInput.current.value = '';
+  } catch (error) {
+    console.error('Failed to send message:', error);
+  }
 };
 
 export const addChatUser = async ({ HomeMessages, HomeInputs, router, setAddLoadingState, UserData, dispatch, setCurrentChat, currentChat, setShowAddLayout }: AddChatUserProps) => {
-  const newUser = HomeInputs.username.current?.value as string;
-  HomeMessages.addUser.current!.innerHTML = '';
+  const newUser = HomeInputs.username.current?.value?.trim() as string;
+  
+  if (!HomeMessages.addUser.current) return;
+  
+  HomeMessages.addUser.current.innerHTML = '';
+  
+  if (!newUser) {
+    HomeMessages.addUser.current.innerHTML = 'Please enter a username';
+    HomeMessages.addUser.current.style.color = 'red';
+    return;
+  }
+  
   if (UserData?.username === newUser) {
-    HomeMessages.addUser.current!.innerHTML = "You Can't Add Yourself";
-    HomeMessages.addUser.current!.style.color = 'red';
+    HomeMessages.addUser.current.innerHTML = "You Can't Add Yourself";
+    HomeMessages.addUser.current.style.color = 'red';
     return;
   }
-  if (
-    UserData?.chats.find((chat) => {
-      return chat.name === newUser;
-    })
-  ) {
-    HomeMessages.addUser.current!.innerHTML = 'User Is Already Added';
-    HomeMessages.addUser.current!.style.color = 'red';
+  
+  if (UserData?.chats.find((chat) => chat.name === newUser)) {
+    HomeMessages.addUser.current.innerHTML = 'User Is Already Added';
+    HomeMessages.addUser.current.style.color = 'red';
     return;
   }
+  
   setAddLoadingState(true);
-  const response = await fetch('/api/user', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      username: newUser,
-    }),
-  });
-  setAddLoadingState(false);
-  if (response.status === 200) {
-    const data = await response.json();
-
-    HomeMessages.addUser.current!.innerHTML = 'User Is Found';
-    HomeMessages.addUser.current!.style.color = 'green';
-    setTimeout(() => {
-      setShowAddLayout(false);
-    }, 500);
-    dispatch(createChat({ name: newUser, id: data.id }));
-    return;
-  } else if (response.status === 401) {
-    window.sessionStorage.setItem;
-    router.visit('/register?error=', {
-      method: 'get',
+  
+  try {
+    const response = await fetch('/api/user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        username: newUser,
+      }),
     });
-  } else {
-    HomeMessages.addUser.current!.innerHTML = 'User Is Not Found';
-    HomeMessages.addUser.current!.style.color = 'red';
+    
+    setAddLoadingState(false);
+    
+    if (response.status === 200) {
+      const data = await response.json();
+
+      HomeMessages.addUser.current.innerHTML = 'User Found Successfully';
+      HomeMessages.addUser.current.style.color = 'green';
+      
+      setTimeout(() => {
+        setShowAddLayout(false);
+        if (HomeInputs.username.current) {
+          HomeInputs.username.current.value = '';
+        }
+      }, 1000);
+      
+      dispatch(createChat({ name: newUser, id: data.id }));
+      return;
+    } else if (response.status === 401) {
+      router.visit('/register?error=', {
+        method: 'get',
+      });
+    } else {
+      HomeMessages.addUser.current.innerHTML = 'User Not Found';
+      HomeMessages.addUser.current.style.color = 'red';
+    }
+  } catch (error) {
+    setAddLoadingState(false);
+    HomeMessages.addUser.current.innerHTML = 'Network Error. Please try again.';
+    HomeMessages.addUser.current.style.color = 'red';
   }
 };
 
@@ -123,7 +158,6 @@ export const switchPanels = ({ Panels, isLogin }: SwitchPanelsProps) => {
     Panels.registerPanel.current.style.visibility = 'hidden';
     Panels.loginPanel.current.style.visibility = 'visible';
     Panels.registerPanel.current.style.translate = '140vh';
-    Panels.loginPanel.current.style.translate = '0';
     Panels.loginPanel.current.style.translate = '0';
   } else if (!isLogin && Panels.loginPanel.current && Panels.registerPanel.current) {
     Panels.registerPanel.current.style.visibility = 'visible';
@@ -228,7 +262,7 @@ export const createAccount = async ({ RegisterInputs, dispatch, setIsLogin, setI
     dispatch(
       setNotification({
         type: 'Error',
-        message: 'Something went ,please try again',
+        message: 'Something went wrong, please try again',
         show: true,
       })
     );
@@ -283,29 +317,40 @@ export const handleBackButton = ({ inputsLevel, setInputsLevel }) => {
     });
   }
 };
-export const selectCurrentChat = ({ dispatch, chat, setCurrentChat, currentChat }: SelectCurrentChatProps) => {
+
+export const selectCurrentChat = ({ dispatch, chat, setCurrentChat, currentChat, setShowAddLayout }: SelectCurrentChatProps) => {
   if ((currentChat && currentChat.id !== chat.id) || !currentChat) {
-    document.getElementById(`${chat.id}`)?.classList.add('dark:bg-[#a8a8aa84]');
-    document.getElementById(`${chat.id}`)?.classList.add('bg-[#a8a8aa84]');
+    // Remove active state from previous chat
+    if (currentChat) {
+      const prevChatElement = document.getElementById(`chat-${currentChat.id}`);
+      if (prevChatElement) {
+        prevChatElement.classList.remove('bg-indigo-50', 'dark:bg-indigo-900/30', 'border-l-4', 'border-indigo-500');
+      }
+    }
+    
+    // Add active state to current chat
+    const currentChatElement = document.getElementById(`chat-${chat.id}`);
+    if (currentChatElement) {
+      currentChatElement.classList.add('bg-indigo-50', 'dark:bg-indigo-900/30', 'border-l-4', 'border-indigo-500');
+    }
+    
     setCurrentChat({
       id: chat.id,
       name: chat.name,
     });
+    
     dispatch(fetchUserMessages(chat.id));
-    if (currentChat) {
-      document.getElementById(`${currentChat.id}`)?.classList.remove('dark:bg-[#a8a8aa84]');
-      document.getElementById(`${currentChat.id}`)?.classList.remove('bg-[#a8a8aa84]');
-    }
+    setShowAddLayout(false);
   }
 };
 
 export const searchChat = ({ event, setSearchChats, userChats }: SearchChatsProps) => {
-  const searchInput = event.currentTarget.value;
+  const searchInput = event.currentTarget.value.trim();
+  
   if (searchInput) {
     const searchedChats = userChats.filter((chat) => {
       return chat.name.toLowerCase().includes(searchInput.toLowerCase());
     });
-    console.log(searchedChats.length);
     setSearchChats(searchedChats);
   } else {
     setSearchChats(null);

@@ -16,9 +16,9 @@ const Chats: React.FC = () => {
   const { searchChats, setSearchChats } = States();
   
   return (
-    <div className="border-[#e5e7eb] dark:border-[#374151] border-r w-[24rem] bg-white dark:bg-[#1f2937] p-0 m-0 box-border h-[100vh] float-left shadow-lg">
+    <div className="w-[24rem] bg-white dark:bg-[#1f2937] border-r border-gray-200 dark:border-gray-700 flex flex-col h-full">
       {/* Header */}
-      <header className="flex justify-between items-center px-6 py-4 h-[80px] border-b border-[#e5e7eb] dark:border-[#374151] bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
+      <header className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
         <div className="flex items-center gap-3">
           <h1 className="font-bold text-2xl text-gray-800 dark:text-white">Messages</h1>
           <span className="bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 text-xs font-semibold px-2 py-1 rounded-full">
@@ -56,11 +56,11 @@ const Chats: React.FC = () => {
       </div>
 
       {/* Chat List */}
-      <div className="overflow-y-auto h-[calc(100vh-164px)] scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 dark:scrollbar-track-gray-800 dark:scrollbar-thumb-gray-600">
+      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 dark:scrollbar-track-gray-800 dark:scrollbar-thumb-gray-600">
         {searchChats && searchChats.length > 0 ? (
           <div className="px-2 py-2">
             {searchChats.map((chat, index) => (
-              <Chat key={index} chat={chat} />
+              <Chat key={`search-${chat.id}-${index}`} chat={chat} />
             ))}
           </div>
         ) : searchChats && searchChats.length === 0 ? (
@@ -72,7 +72,7 @@ const Chats: React.FC = () => {
         ) : userData?.chats && userData.chats.length > 0 ? (
           <div className="px-2 py-2">
             {userData.chats.map((chat, index) => (
-              <Chat key={index} chat={chat} />
+              <Chat key={`chat-${chat.id}-${index}`} chat={chat} />
             ))}
           </div>
         ) : (
