@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faGear, faUser, faMoon, faSun, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faGear, faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import logo from "./Images/profile.png";
 
 const Settings: React.FC = () => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
-    const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
     const sideBar = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -17,11 +16,6 @@ const Settings: React.FC = () => {
             }
         }
     }, [isExpanded]);
-
-    const toggleDarkMode = () => {
-        setIsDarkMode(!isDarkMode);
-        document.documentElement.classList.toggle('dark');
-    };
 
     return (
         <div
@@ -58,22 +52,6 @@ const Settings: React.FC = () => {
 
             {/* Bottom Section */}
             <div className="flex flex-col gap-2 p-4">
-                {/* Dark Mode Toggle */}
-                <div className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
-                     onClick={toggleDarkMode}>
-                    <div className="w-6 h-6 flex items-center justify-center">
-                        <FontAwesomeIcon
-                            icon={isDarkMode ? faSun : faMoon}
-                            className="text-gray-600 dark:text-gray-300"
-                        />
-                    </div>
-                    {isExpanded && (
-                        <span className="text-gray-700 dark:text-gray-300 font-medium">
-                            {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-                        </span>
-                    )}
-                </div>
-
                 {/* Settings */}
                 <div className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer">
                     <div className="w-6 h-6 flex items-center justify-center">
