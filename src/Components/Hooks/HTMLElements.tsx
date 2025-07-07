@@ -48,18 +48,6 @@ export const HTMLElements = () => {
     resend: useRef<HTMLButtonElement | null>(null),
   };
 
-  const HomeInputs = {
-    username: useRef<HTMLInputElement | null>(null),
-    chatInput: useRef<HTMLInputElement | null>(null),
-  }
-  const HomeButtons = {
-    addUser: useRef<HTMLButtonElement | null>(null),
-  }
-
-  const HomeMessages = {
-    addUser: useRef<HTMLParagraphElement | null>(null),
-  }
-
   return {
     RegisterInputs,
     LoginInputs,
@@ -68,8 +56,5 @@ export const HTMLElements = () => {
     registerLevel,
     Panels,
     RegisterButtons,
-    HomeMessages,
-    HomeButtons,
-    HomeInputs
   };
 };

@@ -1,10 +1,6 @@
-import type { AddChatUserProps, HandleInputsLevelProps, HandleOpeningErrorProps, ResetRegisterPanelProps, SearchChatsProps, SelectCurrentChatProps, SendCodeProps, SendsMessageProps } from '../Types/Interfaces';
-import type { UserDataProps, UserChatsProps, MessageProps, MessageUsersProps, SwitchPanelsProps } from '../Types/Interfaces';
+import type { HandleInputsLevelProps, HandleOpeningErrorProps, ResetRegisterPanelProps, SwitchPanelsProps, SendCodeProps } from '../Types/Interfaces';
 import { setNotification } from '../Redux/NotificationSlice';
 import { firstValidation, secondValidation } from './Validation';
-import { removeLoadingState, showLoadingState } from '../Redux/LoadingSlice';
-import { fetchUserMessages } from '../Redux/MessagesSlice';
-import { createChat } from '../Redux/UserDataSlice';
 
 export const resetRegisterPanel = ({ RegisterInputs, setInputsLevel }: ResetRegisterPanelProps) => {
   for (const key in RegisterInputs) {
@@ -51,119 +47,6 @@ export const sendCode = async ({ RegisterInputs, RegisterMessages, setLoadingSta
     RegisterMessages.verificationMessage.current!.style.color = 'rgb(245, 64, 64)';
     RegisterMessages.verificationMessage.current!.innerHTML = 'Too Many Requests';
     RegisterMessages.emailSent.current!.innerHTML = '';
-  }
-};
-
-export const sendMessage = async ({ event, HomeInputs, currentChat }: SendsMessageProps) => {
-  event.preventDefault();
-  
-  if (!HomeInputs.chatInput.current?.value.trim() || !currentChat) {
-    return;
-  }
-
-  const messageText = HomeInputs.chatInput.current.value.trim();
-  
-  try {
-    await fetch('/api/message', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message: messageText,
-        chat_name: currentChat.name
-      }),
-    });
-    
-    // Clear the input after successful send
-    HomeInputs.chatInput.current.value = '';
-  } catch (error) {
-    console.error('Failed to send message:', error);
-  }
-};
-
-export const addChatUser = async ({ HomeMessages, HomeInputs, router, setAddLoadingState, UserData, dispatch, setCurrentChat, currentChat, setShowAddLayout }: AddChatUserProps) => {
-  const newUser = HomeInputs.username.current?.value?.trim() as string;
-  
-  if (!HomeMessages.addUser.current) return;
-  
-  HomeMessages.addUser.current.innerHTML = '';
-  
-  if (!newUser) {
-    HomeMessages.addUser.current.innerHTML = 'Please enter a username';
-    HomeMessages.addUser.current.style.color = 'red';
-    return;
-  }
-  
-  if (UserData?.username === newUser) {
-    HomeMessages.addUser.current.innerHTML = "You Can't Add Yourself";
-    HomeMessages.addUser.current.style.color = 'red';
-    return;
-  }
-  
-  if (UserData?.chats.find((chat) => chat.name === newUser)) {
-    HomeMessages.addUser.current.innerHTML = 'User Is Already Added';
-    HomeMessages.addUser.current.style.color = 'red';
-    return;
-  }
-  
-  setAddLoadingState(true);
-  
-  try {
-    const response = await fetch('http://127.0.0.1:8000//api/user', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        username: newUser,
-      }),
-    });
-    
-    setAddLoadingState(false);
-    
-    if (response.status === 200) {
-      const data = await response.json();
-      
-      // Create new chat object based on API response
-      const newChat = {
-        id: data.uuid, // Use uuid from API response
-        name: data.username, // Use username from API response
-        lastMessage: null,
-        createdAt: new Date().toISOString()
-      };
-
-      HomeMessages.addUser.current.innerHTML = 'User Added Successfully';
-      HomeMessages.addUser.current.style.color = 'green';
-      
-      // Add the new chat to Redux store
-      dispatch(createChat(newChat));
-      
-      // Clear input and close modal after success
-      setTimeout(() => {
-        setShowAddLayout(false);
-        if (HomeInputs.username.current) {
-          HomeInputs.username.current.value = '';
-        }
-        if (HomeMessages.addUser.current) {
-          HomeMessages.addUser.current.innerHTML = '';
-        }
-      }, 1500);
-      
-      return;
-    } else if (response.status === 401) {
-      router.visit('/register?error=', {
-        method: 'get',
-      });
-    } else {
-      HomeMessages.addUser.current.innerHTML = 'User Not Found';
-      HomeMessages.addUser.current.style.color = 'red';
-    }
-  } catch (error) {
-    setAddLoadingState(false);
-    HomeMessages.addUser.current.innerHTML = 'Network Error. Please try again.';
-    HomeMessages.addUser.current.style.color = 'red';
   }
 };
 
@@ -232,6 +115,9 @@ export const createAccount = async ({ RegisterInputs, dispatch, setIsLogin, setI
   if (!csrfToken) {
     return;
   }
+  
+  const { showLoadingState, removeLoadingState } = await import('../Redux/LoadingSlice');
+  
   dispatch(showLoadingState());
   const response = await fetch('/api/register', {
     method: 'POST',
@@ -329,44 +215,5 @@ export const handleBackButton = ({ inputsLevel, setInputsLevel }) => {
       from: 3,
       to: 2,
     });
-  }
-};
-
-export const selectCurrentChat = ({ dispatch, chat, setCurrentChat, currentChat, setShowAddLayout }: SelectCurrentChatProps) => {
-  if ((currentChat && currentChat.id !== chat.id) || !currentChat) {
-    // Remove active state from previous chat
-    if (currentChat) {
-      const prevChatElement = document.getElementById(`chat-${currentChat.id}`);
-      if (prevChatElement) {
-        prevChatElement.classList.remove('bg-indigo-50', 'dark:bg-indigo-900/30', 'border-l-4', 'border-indigo-500');
-      }
-    }
-    
-    // Add active state to current chat
-    const currentChatElement = document.getElementById(`chat-${chat.id}`);
-    if (currentChatElement) {
-      currentChatElement.classList.add('bg-indigo-50', 'dark:bg-indigo-900/30', 'border-l-4', 'border-indigo-500');
-    }
-    
-    setCurrentChat({
-      id: chat.id,
-      name: chat.name,
-    });
-    
-    dispatch(fetchUserMessages(chat.id));
-    setShowAddLayout(false);
-  }
-};
-
-export const searchChat = ({ event, setSearchChats, userChats }: SearchChatsProps) => {
-  const searchInput = event.currentTarget.value.trim();
-  
-  if (searchInput) {
-    const searchedChats = userChats.filter((chat) => {
-      return chat.name.toLowerCase().includes(searchInput.toLowerCase());
-    });
-    setSearchChats(searchedChats);
-  } else {
-    setSearchChats(null);
   }
 };
