@@ -16,7 +16,7 @@ const Home: React.FC = () => {
   }, [dispatch]);
   
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
+    <div className="flex h-screen bg-[#c5c4c4] dark:bg-[#1c1c1d] overflow-hidden">
       <Dialog />
       <Settings />
       <Chats />

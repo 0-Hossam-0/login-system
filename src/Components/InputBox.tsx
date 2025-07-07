@@ -31,9 +31,9 @@ const InputBox: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center gap-3 bg-gray-100 dark:bg-gray-800 rounded-2xl p-3">
+    <div className="flex items-center gap-3 bg-gray-200 dark:bg-gray-700 rounded-2xl p-3">
       {/* Attachment Button */}
-      <button className="p-2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors">
+      <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-[#6366f1] dark:hover:text-[#6366f1] hover:bg-gray-300 dark:hover:bg-gray-600 rounded-full transition-colors">
         <FontAwesomeIcon icon={faPaperclip} className="h-5 w-5" />
       </button>
 
@@ -49,14 +49,14 @@ const InputBox: React.FC = () => {
       </div>
 
       {/* Emoji Button */}
-      <button className="p-2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors">
+      <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-[#6366f1] dark:hover:text-[#6366f1] hover:bg-gray-300 dark:hover:bg-gray-600 rounded-full transition-colors">
         <FontAwesomeIcon icon={faSmile} className="h-5 w-5" />
       </button>
 
       {/* Voice/Send Button */}
       <button
         onClick={handleSendMessage}
-        className="p-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-full transition-all duration-200 hover:scale-105 shadow-md"
+        className="p-3 bg-[#6366f1] hover:bg-[#5855eb] text-white rounded-full transition-all duration-200 hover:scale-105 shadow-md"
       >
         <FontAwesomeIcon icon={faPaperPlane} className="h-4 w-4" />
       </button>
