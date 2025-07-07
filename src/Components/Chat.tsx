@@ -13,8 +13,8 @@ const Chat: React.FC<ChatPropsComponent> = ({ chat }) => {
   
   return (
     <div 
-      className={`flex hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 cursor-pointer rounded-xl p-4 mb-2 select-none group ${
-        isActive ? 'bg-[#6366f1]/10 dark:bg-[#6366f1]/20 border-l-4 border-[#6366f1]' : ''
+      className={`flex hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 cursor-pointer rounded-xl p-4 mb-2 select-none group ${
+        isActive ? 'bg-indigo-50 dark:bg-indigo-900/30 border-l-4 border-indigo-500' : ''
       }`}
       id={`chat-${chat.id}`} 
       onClick={() => selectCurrentChat({ dispatch, chat, setCurrentChat, currentChat, setShowAddLayout })}
@@ -24,7 +24,7 @@ const Chat: React.FC<ChatPropsComponent> = ({ chat }) => {
         <div className="relative">
           <img 
             src={logo} 
-            className="w-12 h-12 rounded-full object-cover ring-2 ring-gray-300 dark:ring-gray-500" 
+            className="w-12 h-12 rounded-full object-cover ring-2 ring-gray-200 dark:ring-gray-600" 
             alt={`${chat.name} avatar`}
           />
           <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-gray-800"></div>
@@ -34,7 +34,7 @@ const Chat: React.FC<ChatPropsComponent> = ({ chat }) => {
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-1">
             <h3 className={`font-semibold truncate ${
-              isActive ? 'text-[#6366f1] dark:text-[#6366f1]' : 'text-gray-900 dark:text-gray-100'
+              isActive ? 'text-indigo-700 dark:text-indigo-300' : 'text-gray-900 dark:text-gray-100'
             }`}>
               {chat.name}
             </h3>
@@ -50,7 +50,7 @@ const Chat: React.FC<ChatPropsComponent> = ({ chat }) => {
       
       {/* Unread indicator */}
       <div className="flex items-center">
-        <div className="w-2 h-2 bg-[#6366f1] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <div className="w-2 h-2 bg-indigo-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
       </div>
     </div>
   );
