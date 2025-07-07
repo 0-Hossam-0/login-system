@@ -6,7 +6,6 @@ import { storeApp } from './Redux/StoreApp';
 import LoadingLayOut from './Components/LoadingLayOut';
 import Notification from './Components/Notification';
 import { RegisterAndLoginProvider } from './RegisterAndLoginContext';
-import { HomeContextProvider } from './HomeContext';
 
 createInertiaApp({
   resolve: (name) => {
@@ -14,21 +13,12 @@ createInertiaApp({
     return pages[`./Pages/${name}.tsx`].default;
   },
   setup({ el, App, props }) {
-    const pageName = props.initialPage.component;
     const Component = () => {
-      if (pageName === 'RegisterAndLogin') {
-        return (
-          <RegisterAndLoginProvider>
-            <App {...props} />
-          </RegisterAndLoginProvider>
-        );
-      } else {
-        return (
-          <HomeContextProvider>
-            <App {...props} />
-          </HomeContextProvider>
-        );
-      }
+      return (
+        <RegisterAndLoginProvider>
+          <App {...props} />
+        </RegisterAndLoginProvider>
+      );
     };
     createRoot(el).render(
       <Provider store={storeApp}>

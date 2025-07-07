@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { InputsLevelProps, GetLoadingStateProps, NotificationProps, SetLoadingStateProps, UserChatsProps } from '../../Types/Interfaces';
+import type { InputsLevelProps, GetLoadingStateProps, NotificationProps, SetLoadingStateProps } from '../../Types/Interfaces';
 
 export const States = () => {
   const [showUsernameLoading, setUsernameLoading] = useState<boolean>(false);
@@ -7,8 +7,6 @@ export const States = () => {
   const [showLoginLoading, setLoginLoading] = useState<boolean>(false);
   const [showNotification, setShowNotification] = useState<NotificationProps>({ message: '', type: 'Error', show: false });
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
-  const [showAddLoadingState, setAddLoadingState] = useState<boolean>(false);
-  const [showAddLayout, setShowAddLayout] = useState<boolean>(false);
   const [verifyEmailLoading, setVerifyEmailLoading] = useState<boolean>(false);
   const [isResendButtonOn, setIsResendButtonOn] = useState<boolean>(true);
   const getLoadingState: GetLoadingStateProps = {
@@ -31,8 +29,7 @@ export const States = () => {
     to: 1,
   });
   const [isLogin, setIsLogin] = useState<boolean>(true);
-  const [currentChat, setCurrentChat] = useState<UserChatsProps | null>(null);
-  const [searchChats, setSearchChats] = useState<UserChatsProps[] | null>(null);
+  
   return {
     getLoadingState,
     setLoadingState,
@@ -46,15 +43,7 @@ export const States = () => {
     setShowNotification,
     showOverlay,
     setShowOverlay,
-    showAddLoadingState,
-    setAddLoadingState,
-    showAddLayout,
-    setShowAddLayout,
     isResendButtonOn,
     setIsResendButtonOn,
-    currentChat,
-    setCurrentChat,
-    searchChats,
-    setSearchChats,
   };
 };

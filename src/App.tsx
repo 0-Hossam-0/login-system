@@ -5,13 +5,10 @@ import { storeApp } from './Redux/StoreApp';
 import LoadingLayOut from './Components/LoadingLayOut';
 import Notification from './Components/Notification';
 import { RegisterAndLoginProvider } from './RegisterAndLoginContext';
-import { HomeContextProvider } from './HomeContext';
-import RegisterAndLogin from './Pages/RegisterAndLogin'; // Import your actual auth component
-import Home from './Pages/Home'; // Import your actual home component
+import RegisterAndLogin from './Pages/RegisterAndLogin';
 
 // Create main App component
 function App() {
-  console.log('here');
   return (
     <BrowserRouter>
       {/* Global components */}
@@ -21,21 +18,11 @@ function App() {
       <Routes>
         {/* Auth routes wrapped in RegisterAndLoginProvider */}
         <Route
-          path="/register"
+          path="/*"
           element={
             <RegisterAndLoginProvider>
               <RegisterAndLogin />
             </RegisterAndLoginProvider>
-          }
-        />
-
-        {/* All other routes wrapped in HomeContextProvider */}
-        <Route
-          path="/*"
-          element={
-            <HomeContextProvider>
-              <Home />
-            </HomeContextProvider>
           }
         />
       </Routes>
