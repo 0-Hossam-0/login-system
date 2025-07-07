@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import type { UserDataProps } from '../Types/Interfaces';
+import type { UserDataProps, UserChatsProps } from '../Types/Interfaces';
 import { removeLoadingState, showLoadingState } from './LoadingSlice';
 
 const initialState: { data: UserDataProps | null; error: string | null; loading: boolean } = {
@@ -34,12 +34,18 @@ const userDataSlice = createSlice({
   initialState,
   reducers: {
     createChat(state, action) {
-      state.data?.chats.push({
-        name: action.payload.name,
-        createdAt: null,
-        lastMessage: null,
-        id: action.payload.id,
-      });
+      if (state.data) {
+        // Create new chat object with proper structure
+        const newChat: UserChatsProps = {
+          id: action.payload.id,
+          name: action.payload.name,
+          lastMessage: action.payload.lastMessage || null,
+          createdAt: action.payload.createdAt || new Date().toISOString(),
+        };
+        
+        // Add the new chat to the beginning of the chats array
+        state.data.chats.unshift(newChat);
+      }
     },
   },
   extraReducers: (builder) => {

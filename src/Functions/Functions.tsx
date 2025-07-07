@@ -125,18 +125,32 @@ export const addChatUser = async ({ HomeMessages, HomeInputs, router, setAddLoad
     
     if (response.status === 200) {
       const data = await response.json();
+      
+      // Create new chat object based on API response
+      const newChat = {
+        id: data.uuid, // Use uuid from API response
+        name: data.username, // Use username from API response
+        lastMessage: null,
+        createdAt: new Date().toISOString()
+      };
 
-      HomeMessages.addUser.current.innerHTML = 'User Found Successfully';
+      HomeMessages.addUser.current.innerHTML = 'User Added Successfully';
       HomeMessages.addUser.current.style.color = 'green';
       
+      // Add the new chat to Redux store
+      dispatch(createChat(newChat));
+      
+      // Clear input and close modal after success
       setTimeout(() => {
         setShowAddLayout(false);
         if (HomeInputs.username.current) {
           HomeInputs.username.current.value = '';
         }
-      }, 1000);
+        if (HomeMessages.addUser.current) {
+          HomeMessages.addUser.current.innerHTML = '';
+        }
+      }, 1500);
       
-      dispatch(createChat({ name: newUser, id: data.id }));
       return;
     } else if (response.status === 401) {
       router.visit('/register?error=', {
