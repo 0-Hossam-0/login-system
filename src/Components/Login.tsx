@@ -25,9 +25,10 @@ const Login: React.FC = () => {
                 </div>
               )}
               <input type="text" className="w-[370px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Email/Username" ref={LoginInputs.emailLogin} />
+              <input type="text" className="w-[370px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Enter your email or username" ref={LoginInputs.emailLogin} />
             </div>
             <div className="flex flex-col gap-2 mb-5">
-              <input type="password" className="w-[370px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Password" ref={LoginInputs.passwordLogin} />
+              <input type="password" className="w-[370px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Enter your password" ref={LoginInputs.passwordLogin} />
             </div>
           </div>
         </div>

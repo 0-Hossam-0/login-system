@@ -9,7 +9,7 @@ const FirstInputs: React.FC = () => {
     <div className="ml-10 mt-[30px] transition-all duration-200 translate-x-[-540px] invisible" ref={registerLevel.firstInputs} id="first-inputs">
       <div className="flex gap-[60px]">
         <div className="flex flex-col gap-2 mb-5">
-          <input type="text" className="w-[220px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Username" ref={RegisterInputs.username} />
+          <input type="text" className="w-[220px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Enter your username" ref={RegisterInputs.username} />
           <p className="ml-[10px] text-red-500 font-bold" ref={RegisterMessages.username}></p>
           {getLoadingState.showUsernameLoading && (
             <div className="inline-block rounded-full text-indigo-600  dark:text-indigo-400 px-4  text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out focus:outline-none focus:ring-0 select-none">
@@ -21,7 +21,7 @@ const FirstInputs: React.FC = () => {
           )}
         </div>
         <div className="flex flex-col gap-2 mb-5">
-          <input type="text" className="w-[220px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Email" ref={RegisterInputs.email} />
+          <input type="email" className="w-[220px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Enter your email address" ref={RegisterInputs.email} />
           <p className="ml-[10px] text-red-500 font-bold" ref={RegisterMessages.email}></p>
           {getLoadingState.showEmailLoading && (
             <div className="inline-block rounded-full text-indigo-600  dark:text-indigo-400 px-4  text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out focus:outline-none focus:ring-0 select-none">
@@ -35,11 +35,11 @@ const FirstInputs: React.FC = () => {
       </div>
       <div className="flex gap-[60px]">
         <div className="flex flex-col gap- mb-5">
-          <input type="password" className="w-[220px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Password" ref={RegisterInputs.password} />
+          <input type="password" className="w-[220px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Create a password" ref={RegisterInputs.password} />
           <p className="ml-[10px] mt-3 text-red-500 font-bold" ref={RegisterMessages.password}></p>
         </div>
         <div className="flex flex-col gap-2 mb-5 ">
-          <input type="password" className="w-[220px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Repeat Password" ref={RegisterInputs.rPassword} />
+          <input type="password" className="w-[220px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Confirm your password" ref={RegisterInputs.rPassword} />
           <p className="ml-[10px] text-red-500 font-bold" ref={RegisterMessages.rPassword}></p>
         </div>
       </div>

@@ -42,7 +42,7 @@ const InputBox: React.FC = () => {
         <input
           type="text"
           className="w-full bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 outline-none py-2 px-4 rounded-xl"
-          placeholder="Type a message..."
+          placeholder="Type your message here..."
           ref={HomeInputs.chatInput}
           onKeyPress={handleKeyPress}
         />

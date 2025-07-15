@@ -47,7 +47,7 @@ const Dialog: FC = () => {
                     Username
                   </label>
                   <input
-                    placeholder="Enter username to add as friend"
+                    placeholder="Enter friend's username"
                     className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-xl border border-gray-200 dark:border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 outline-none transition-all"
                     ref={HomeInputs.username}
                   />
