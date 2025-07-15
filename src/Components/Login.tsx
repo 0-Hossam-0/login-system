@@ -24,11 +24,14 @@ const Login: React.FC = () => {
                   Loading
                 </div>
               )}
-              <input type="text" className="w-[370px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Email/Username" ref={LoginInputs.emailLogin} />
-              <input type="text" className="w-[370px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Enter your email or username" ref={LoginInputs.emailLogin} />
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300 ml-2">Email/Username</label>
+                <input type="text" className="w-[370px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Email/Username" ref={LoginInputs.emailLogin} />
+              </div>
             </div>
             <div className="flex flex-col gap-2 mb-5">
-              <input type="password" className="w-[370px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Enter your password" ref={LoginInputs.passwordLogin} />
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 ml-2">Password</label>
+              <input type="password" className="w-[370px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Password" ref={LoginInputs.passwordLogin} />
             </div>
           </div>
         </div>

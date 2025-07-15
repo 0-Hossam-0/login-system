@@ -31,8 +31,10 @@ const ThirdInputs: React.FC = () => {
         </div>
         <div className="flex flex-col gap-[15px] items-center w-[345px]">
           <div className="flex gap-8 items-center justify-center w-fit">
-            <input type="text" className="w-[220px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Code" ref={RegisterInputs.code} />
-            <input type="text" className="w-[220px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Enter verification code" ref={RegisterInputs.code} />
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 ml-2">Verification Code</label>
+              <input type="text" className="w-[220px] rounded-md p-1 pl-2 focus:outline-indigo-500 bg-[#d5d4d4] hover:bg-[#d8d7d7] outline-none border-black border" placeholder="Code" ref={RegisterInputs.code} />
+            </div>
             <button disabled={!isResendButtonOn} onClick={() => sendCode( {RegisterInputs, RegisterMessages, setLoadingState, setIsResendButtonOn})} className=" text-indigo-500 font-semibold hover:text-indigo-400 bg-black rounded-lg p-1 pl-2 pr-2 cursor-pointer disabled:text-gray-500 disabled:cursor-default" ref={RegisterButtons.resend}>
               Resend
             </button>
