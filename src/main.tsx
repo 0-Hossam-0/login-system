@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import './css/app.css';
 import { storeApp } from './Redux/StoreApp';
 import LoadingLayOut from './Components/LoadingLayOut';
 import Notification from './Components/Notification';
